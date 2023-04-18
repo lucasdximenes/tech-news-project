@@ -1,4 +1,5 @@
 import requests
+from parsel import Selector
 from time import sleep
 
 BASE_URL = "https://blog.betrybe.com/"
@@ -10,6 +11,7 @@ def fetch(url):
         response = requests.get(
             BASE_URL, headers={"User-Agent": "Fake user-agent"}, timeout=3
         )
+        print(response)
         response.raise_for_status()
         return response.text
     except requests.exceptions.HTTPError:
@@ -22,7 +24,9 @@ def fetch(url):
 
 # Requisito 2
 def scrape_updates(html_content):
-    """Seu código deve vir aqui"""
+    html_body = Selector(text=html_content)
+    news_card_links = html_body.css(".cs-overlay-link::attr(href)").getall()
+    return news_card_links
 
 
 # Requisito 3
