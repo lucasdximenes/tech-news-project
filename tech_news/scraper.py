@@ -1,6 +1,23 @@
+import requests
+from time import sleep
+
+BASE_URL = "https://blog.betrybe.com/"
+
+
 # Requisito 1
 def fetch(url):
-    """Seu código deve vir aqui"""
+    try:
+        response = requests.get(
+            BASE_URL, headers={"User-Agent": "Fake user-agent"}, timeout=3
+        )
+        response.raise_for_status()
+        return response.text
+    except requests.exceptions.HTTPError:
+        return None
+    except requests.exceptions.Timeout:
+        return None
+    finally:
+        sleep(1)
 
 
 # Requisito 2
